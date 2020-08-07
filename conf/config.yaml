@@ -1,6 +1,6 @@
 name: "go_web_bbs"
 mode: "dev"
-port: 8081
+port: 8080
 version: "0.0.1"
 start_time: "2020-07-01"
 machine_id: 1

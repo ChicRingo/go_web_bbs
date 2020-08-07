@@ -8,7 +8,20 @@ import (
 	"go.uber.org/zap"
 )
 
-// PostHandler 创建帖子
+// CreatePostHandler godoc
+// @Summary 创建帖子
+// @Description 根据get请求参数创建帖子
+// @Tags post
+// @version 1.0
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param post body models.Post true "提交文章对象"
+// @Success 1000 "success" {object} controller.ResponseData
+// @Failure 1001 "请求参数错误" {object} controller.ResponseData
+// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Failure 1006 "需要登录" {object} controller.ResponseData
+// @Router /post [post]
 func CreatePostHandler(c *gin.Context) {
 	var post models.Post
 	if err := c.ShouldBindJSON(&post); err != nil {
@@ -35,7 +48,21 @@ func CreatePostHandler(c *gin.Context) {
 	ResponseSuccess(c, nil)
 }
 
-//// PostListHandler 帖子列表
+// PostListHandler godoc
+// @Summary 帖子列表
+// @Description 获取全部帖子列表
+// @Tags post
+// @version 1.0
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param order query int true "每页数量"
+// @Param page query int true "分页页码"
+// @Success 1000 "success" {object} controller.ResponseData
+// @Failure 1001 "请求参数错误" {object} controller.ResponseData
+// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Failure 1006 "需要登录" {object} controller.ResponseData
+// @Router /post [get]
 //func PostListHandler(c *gin.Context) {
 //	order, _ := c.GetQuery("order")
 //	pageStr, ok := c.GetQuery("page")

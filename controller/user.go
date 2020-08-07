@@ -11,20 +11,19 @@ import (
 	"go.uber.org/zap"
 )
 
-// @Param article body model.Article true "文章"
-// @Success 200 object model.Result 成功后返回值
-// @Failure 409 object model.Result 添加失败
-// @Router /article [post]
-
-// @Summary 处理注册请求的函数
-// @Id 1
-// @Tags 注册用户
+// SignUpHandler godoc
+// @Summary 新建用户
+// @Description 根据传递进来的用户名和密码进行校验，通过后创建新用户
+// @Tags user
 // @version 1.0
-// @Accept application/x-json-stream
+// @Accept json
+// @Produce json
 // @Param paramSingUp body models.ParamSingUp true "用户注册请求"
-// @Success 1000 object 成功后返回值
-// @Failure 409 object 添加失败
-// @Router /v1/api/signup [post]
+// @Success 1000 "success" {object} controller.ResponseData
+// @Failure 1001 "请求参数错误" {object} controller.ResponseData
+// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Failure 1002 "用户名已存在" {object} controller.ResponseData
+// @Router /signup [post]
 func SignUpHandler(c *gin.Context) {
 	// 1.获取参数和参数校验
 	p := new(models.ParamSingUp)
@@ -37,7 +36,7 @@ func SignUpHandler(c *gin.Context) {
 			ResponseError(c, CodeInvalidParam)
 			return
 		}
-		ResponseErrorWithMsg(c, CodeInvalidParam, errs.Translate(trans))
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
 
@@ -56,7 +55,19 @@ func SignUpHandler(c *gin.Context) {
 	ResponseSuccess(c, nil)
 }
 
-// SignUpHandler 处理注册请求的函数
+// LoginHandler godoc
+// @Summary 用户登录
+// @Description 根据传递进来的用户名和密码进行校验，通过后创建新用户
+// @Tags user
+// @version 1.0
+// @Accept json
+// @Produce json
+// @Param paramLogin body models.ParamLogin true "用户登陆请求"
+// @Success 1000 "success" {object} controller.ResponseData
+// @Failure 1001 "请求参数错误" {object} controller.ResponseData
+// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Failure 1003 "用户名不存在" {object} controller.ResponseData
+// @Router /login [post]
 func LoginHandler(c *gin.Context) {
 	// 1.获取参数和参数校验
 	p := new(models.ParamLogin)
@@ -69,7 +80,7 @@ func LoginHandler(c *gin.Context) {
 			ResponseError(c, CodeInvalidParam)
 			return
 		}
-		ResponseErrorWithMsg(c, CodeInvalidParam, errs.Translate(trans))
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
 	// 2.业务处理

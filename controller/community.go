@@ -11,8 +11,15 @@ import (
 
 // 社区
 
-// CommunityHandler 社区列表
-// 查询到所有的社区（community_id, community_name）以列表形式返回
+// CommunityHandler godoc
+// @Summary 社区列表
+// @Description 查询到所有的社区（community_id, community_name）以列表形式返回
+// @Tags community
+// @version 1.0
+// @Security ApiKeyAuth
+// @Success 1000 "success" {object} controller.ResponseData
+// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Router /community [get]
 func CommunityHandler(c *gin.Context) {
 	communityList, err := logic.GetCommunityList()
 	if err != nil {
@@ -23,7 +30,19 @@ func CommunityHandler(c *gin.Context) {
 	ResponseSuccess(c, communityList)
 }
 
-// GetCommunityDetail 社区分类详情
+// CommunityDetailHandler godoc
+// @Summary 社区分类详情
+// @Description 根据id获取社区详情
+// @Tags community
+// @version 1.0
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "社区ID"
+// @Success 1000 "success" {object} controller.ResponseData
+// @Failure 1001 "请求参数错误" {object} controller.ResponseData
+// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Router /community/{id} [get]
 func CommunityDetailHandler(c *gin.Context) {
 	// 1.获取社区id
 	idStr := c.Param("id") // 获取URL路径参数

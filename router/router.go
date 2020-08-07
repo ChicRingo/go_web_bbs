@@ -1,12 +1,19 @@
 package router
 
 import (
+	"fmt"
 	"go_web_bbs/controller"
 	"go_web_bbs/logger"
 	"go_web_bbs/middlewares"
+	"go_web_bbs/settings"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "go_web_bbs/docs"
 )
 
 func SetupRouter(mode string) *gin.Engine {
@@ -15,6 +22,9 @@ func SetupRouter(mode string) *gin.Engine {
 	}
 	r := gin.New()
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
+	// 使用 ginSwagger 中间件
+	url := ginSwagger.URL(fmt.Sprintf("http://localhost:%d/swagger/doc.json", settings.Conf.Port)) // The url pointing to API definition
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	v1 := r.Group("/api/v1")
 	{
 		// 注册

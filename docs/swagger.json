@@ -1,0 +1,274 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "这是一个gin+sqlx+viper+swag的bbs demo",
+        "title": "go_web_bbs API",
+        "contact": {
+            "name": "百度不会吗？嗯？看什么看？",
+            "url": "http://www.baidu.com",
+            "email": "test@qq.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.0.1"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/community": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "查询到所有的社区（community_id, community_name）以列表形式返回",
+                "tags": [
+                    "community"
+                ],
+                "summary": "社区列表",
+                "responses": {
+                    "1000": {
+                        "description": "success"
+                    },
+                    "1005": {
+                        "description": "服务繁忙"
+                    }
+                }
+            }
+        },
+        "/community/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据id获取社区详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "community"
+                ],
+                "summary": "社区分类详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "社区ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "description": "success"
+                    },
+                    "1001": {
+                        "description": "请求参数错误"
+                    },
+                    "1005": {
+                        "description": "服务繁忙"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "根据传递进来的用户名和密码进行校验，通过后创建新用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "用户登录",
+                "parameters": [
+                    {
+                        "description": "用户登陆请求",
+                        "name": "paramLogin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ParamLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "description": "success"
+                    },
+                    "1001": {
+                        "description": "请求参数错误"
+                    },
+                    "1003": {
+                        "description": "用户名不存在"
+                    },
+                    "1005": {
+                        "description": "服务繁忙"
+                    }
+                }
+            }
+        },
+        "/post": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据get请求参数创建帖子",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "创建帖子",
+                "parameters": [
+                    {
+                        "description": "提交文章对象",
+                        "name": "post",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Post"
+                        }
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "description": "success"
+                    },
+                    "1001": {
+                        "description": "请求参数错误"
+                    },
+                    "1005": {
+                        "description": "服务繁忙"
+                    },
+                    "1006": {
+                        "description": "需要登录"
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "description": "根据传递进来的用户名和密码进行校验，通过后创建新用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "新建用户",
+                "parameters": [
+                    {
+                        "description": "用户注册请求",
+                        "name": "paramSingUp",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ParamSingUp"
+                        }
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "description": "success"
+                    },
+                    "1001": {
+                        "description": "请求参数错误"
+                    },
+                    "1002": {
+                        "description": "用户名已存在"
+                    },
+                    "1005": {
+                        "description": "服务繁忙"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.ParamLogin": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ParamSingUp": {
+            "type": "object",
+            "required": [
+                "password",
+                "re_password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "re_password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Post": {
+            "type": "object",
+            "properties": {
+                "author_id": {
+                    "type": "integer"
+                },
+                "community_id": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

@@ -19,6 +19,23 @@ import (
 	"go.uber.org/zap"
 )
 
+// @title go_web_bbs API
+// @version 0.0.1
+// @description 这是一个gin+sqlx+viper+swag的bbs demo
+
+// @contact.name 百度不会吗？嗯？看什么看？
+// @contact.url http://www.baidu.com
+// @contact.email test@qq.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
+// @host localhost:8080
+// @BasePath /api/v1
 func main() {
 	// 1.加载配置
 	if err := settings.Init(); err != nil {

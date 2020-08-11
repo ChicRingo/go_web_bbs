@@ -19,10 +19,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param paramSingUp body models.ParamSingUp true "用户注册请求"
-// @Success 1000 "success" {object} controller.ResponseData
-// @Failure 1001 "请求参数错误" {object} controller.ResponseData
-// @Failure 1005 "服务繁忙" {object} controller.ResponseData
-// @Failure 1002 "用户名已存在" {object} controller.ResponseData
+// @Success 1000 {object} controller.ResponseData
+// @Failure 1001 {object} controller.ResponseData
+// @Failure 1005 {object} controller.ResponseData
+// @Failure 1002 {object} controller.ResponseData
 // @Router /signup [post]
 func SignUpHandler(c *gin.Context) {
 	// 1.获取参数和参数校验
@@ -63,10 +63,10 @@ func SignUpHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param paramLogin body models.ParamLogin true "用户登陆请求"
-// @Success 1000 "success" {object} controller.ResponseData
-// @Failure 1001 "请求参数错误" {object} controller.ResponseData
-// @Failure 1005 "服务繁忙" {object} controller.ResponseData
-// @Failure 1003 "用户名不存在" {object} controller.ResponseData
+// @Success 1000 {object} controller.ResponseData
+// @Failure 1001 {object} controller.ResponseData
+// @Failure 1005 {object} controller.ResponseData
+// @Failure 1003 {object} controller.ResponseData
 // @Router /login [post]
 func LoginHandler(c *gin.Context) {
 	// 1.获取参数和参数校验

@@ -46,10 +46,19 @@ var doc = `{
                 "summary": "社区列表",
                 "responses": {
                     "1000": {
-                        "description": "success"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1005": {
-                        "description": "服务繁忙"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    },
+                    "1006": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     }
                 }
             }
@@ -83,13 +92,24 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
-                        "description": "success"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1001": {
-                        "description": "请求参数错误"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1005": {
-                        "description": "服务繁忙"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    },
+                    "1006": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     }
                 }
             }
@@ -120,21 +140,75 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
-                        "description": "success"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1001": {
-                        "description": "请求参数错误"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1003": {
-                        "description": "用户名不存在"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1005": {
-                        "description": "服务繁忙"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     }
                 }
             }
         },
         "/post": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取全部帖子列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "帖子列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "分页页码",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    },
+                    "1005": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -165,16 +239,75 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
-                        "description": "success"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1001": {
-                        "description": "请求参数错误"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1005": {
-                        "description": "服务繁忙"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1006": {
-                        "description": "需要登录"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    }
+                }
+            }
+        },
+        "/post/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据id获取帖子详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "帖子详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "post_id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    },
+                    "1001": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    },
+                    "1005": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
+                    },
+                    "1006": {
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     }
                 }
             }
@@ -205,22 +338,45 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
-                        "description": "success"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1001": {
-                        "description": "请求参数错误"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1002": {
-                        "description": "用户名已存在"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     },
                     "1005": {
-                        "description": "服务繁忙"
+                        "schema": {
+                            "$ref": "#/definitions/controller.ResponseData"
+                        }
                     }
                 }
             }
         }
     },
     "definitions": {
+        "controller.ResponseData": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 1000
+                },
+                "data": {
+                    "type": "object"
+                },
+                "msg": {
+                    "type": "object"
+                }
+            }
+        },
         "models.ParamLogin": {
             "type": "object",
             "required": [
@@ -257,6 +413,11 @@ var doc = `{
         },
         "models.Post": {
             "type": "object",
+            "required": [
+                "community_id",
+                "content",
+                "title"
+            ],
             "properties": {
                 "author_id": {
                     "type": "integer"
@@ -265,6 +426,9 @@ var doc = `{
                     "type": "integer"
                 },
                 "content": {
+                    "type": "string"
+                },
+                "create_time": {
                     "type": "string"
                 },
                 "post_id": {

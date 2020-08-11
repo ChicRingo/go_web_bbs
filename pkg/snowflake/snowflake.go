@@ -19,6 +19,6 @@ func Init(startTime string, machineID int64) (err error) {
 	return
 }
 
-func GetID() int64 {
+func GenID() int64 {
 	return node.Generate().Int64()
 }

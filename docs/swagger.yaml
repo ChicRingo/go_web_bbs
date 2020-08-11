@@ -1,5 +1,15 @@
 basePath: /api/v1
 definitions:
+  controller.ResponseData:
+    properties:
+      code:
+        example: 1000
+        type: integer
+      data:
+        type: object
+      msg:
+        type: object
+    type: object
   models.ParamLogin:
     properties:
       password:
@@ -31,12 +41,18 @@ definitions:
         type: integer
       content:
         type: string
+      create_time:
+        type: string
       post_id:
         type: integer
       status:
         type: integer
       title:
         type: string
+    required:
+    - community_id
+    - content
+    - title
     type: object
 host: localhost:8080
 info:
@@ -56,9 +72,14 @@ paths:
       description: 查询到所有的社区（community_id, community_name）以列表形式返回
       responses:
         "1000":
-          description: success
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1005":
-          description: 服务繁忙
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+        "1006":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 社区列表
@@ -79,11 +100,17 @@ paths:
       - application/json
       responses:
         "1000":
-          description: success
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1001":
-          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1005":
-          description: 服务繁忙
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+        "1006":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 社区分类详情
@@ -105,17 +132,50 @@ paths:
       - application/json
       responses:
         "1000":
-          description: success
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1001":
-          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1003":
-          description: 用户名不存在
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1005":
-          description: 服务繁忙
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
       summary: 用户登录
       tags:
       - user
   /post:
+    get:
+      consumes:
+      - application/json
+      description: 获取全部帖子列表
+      parameters:
+      - description: 分页页码
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每页数量
+        in: query
+        name: size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "1000":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+        "1005":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+      security:
+      - ApiKeyAuth: []
+      summary: 帖子列表
+      tags:
+      - post
     post:
       consumes:
       - application/json
@@ -131,16 +191,51 @@ paths:
       - application/json
       responses:
         "1000":
-          description: success
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1001":
-          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1005":
-          description: 服务繁忙
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1006":
-          description: 需要登录
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 创建帖子
+      tags:
+      - post
+  /post/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 根据id获取帖子详情
+      parameters:
+      - description: post_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "1000":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+        "1001":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+        "1005":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+        "1006":
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
+      security:
+      - ApiKeyAuth: []
+      summary: 帖子详情
       tags:
       - post
   /signup:
@@ -159,13 +254,17 @@ paths:
       - application/json
       responses:
         "1000":
-          description: success
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1001":
-          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1002":
-          description: 用户名已存在
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
         "1005":
-          description: 服务繁忙
+          schema:
+            $ref: '#/definitions/controller.ResponseData'
       summary: 新建用户
       tags:
       - user

@@ -43,8 +43,8 @@ func SetupRouter(mode string) *gin.Engine {
 		post := v1.Group("/post")
 		{
 			post.POST("/", controller.CreatePostHandler)
-			//post.GET("/:id", controller.PostDetailHandler)
-			//post.GET("/", controller.PostListHandler)
+			post.GET("/:id", controller.GetPostDetailHandler)
+			post.GET("/", controller.GetPostListHandler)
 		}
 
 	}

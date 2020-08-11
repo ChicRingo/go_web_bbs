@@ -17,8 +17,9 @@ import (
 // @Tags community
 // @version 1.0
 // @Security ApiKeyAuth
-// @Success 1000 "success" {object} controller.ResponseData
-// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Success 1000 {object} controller.ResponseData
+// @Failure 1005 {object} controller.ResponseData
+// @Failure 1006 {object} controller.ResponseData
 // @Router /community [get]
 func CommunityHandler(c *gin.Context) {
 	communityList, err := logic.GetCommunityList()
@@ -39,9 +40,10 @@ func CommunityHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "社区ID"
-// @Success 1000 "success" {object} controller.ResponseData
-// @Failure 1001 "请求参数错误" {object} controller.ResponseData
-// @Failure 1005 "服务繁忙" {object} controller.ResponseData
+// @Success 1000 {object} controller.ResponseData
+// @Failure 1001 {object} controller.ResponseData
+// @Failure 1005 {object} controller.ResponseData
+// @Failure 1006 {object} controller.ResponseData
 // @Router /community/{id} [get]
 func CommunityDetailHandler(c *gin.Context) {
 	// 1.获取社区id

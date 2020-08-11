@@ -16,7 +16,7 @@ func SingUp(p *models.ParamSingUp) (err error) {
 		return err
 	}
 	// 2.生成UID
-	userID := snowflake.GetID()
+	userID := snowflake.GenID()
 	// 构造user实例
 	user := models.User{
 		UserID:   userID,

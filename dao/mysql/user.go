@@ -75,3 +75,20 @@ func Login(user *models.User) (err error) {
 	}
 	return
 }
+
+// GetUserByID 根据用户id获取用户详细信息
+func GetUserByID(uid int64) (user *models.User, err error) {
+	user = new(models.User)
+	sqlStr := `select user_id, username
+	from user
+	where username = ?`
+	err = db.Get(user, sqlStr, uid)
+	//if err == sql.ErrNoRows {
+	//	return ErrorUserNotExist
+	//}
+	//if err != nil {
+	//	// 查询数据库失败
+	//	return err
+	//}
+	return
+}

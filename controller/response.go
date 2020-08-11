@@ -15,7 +15,7 @@ import (
 */
 
 type ResponseData struct {
-	Code ResCode     `json:"code"`
+	Code ResCode     `json:"code" example:"1000"`
 	Msg  interface{} `json:"msg"`
 	Data interface{} `json:"data"`
 }

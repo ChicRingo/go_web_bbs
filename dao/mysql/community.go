@@ -2,7 +2,10 @@ package mysql
 
 import (
 	"database/sql"
+	"fmt"
 	"go_web_bbs/models"
+
+	"errors"
 
 	"go.uber.org/zap"
 )
@@ -10,11 +13,9 @@ import (
 // GetCommunityList
 func GetCommunityList() (communityList []*models.Community, err error) {
 	sqlStr := `select community_id, community_name from community`
-	if err := db.Select(&communityList, sqlStr); err != nil {
-		if err == sql.ErrNoRows {
-			zap.L().Warn("there is no community in db")
-			err = nil
-		}
+	err = db.Select(&communityList, sqlStr)
+	if err != nil {
+		zap.L().Error("mysql.GetCommunityList() failed", zap.Error(err))
 	}
 	return
 }
@@ -25,9 +26,11 @@ func GetCommunityDetailById(id int64) (communityDetail *models.CommunityDetail, 
 	sqlStr := `select community_id, community_name, introduction, create_time, update_time
     from community
     where community_id = ?`
-	if err := db.Get(communityDetail, sqlStr, id); err != nil {
-		if err == sql.ErrNoRows {
-			err = ErrorInvalidID
+	err = db.Get(communityDetail, sqlStr, id)
+	if err != nil {
+		zap.L().Error("mysql.GetCommunityDetailById() failed", zap.Int64("id", id), zap.Error(err))
+		if errors.Is(err, sql.ErrNoRows) {
+			err = fmt.Errorf("more info: %w [%v]", ErrorInvalidID, id)
 		}
 	}
 	return

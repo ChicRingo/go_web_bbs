@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"database/sql"
+	"errors"
 	"go_web_bbs/models"
 
 	"go.uber.org/zap"
@@ -28,7 +29,7 @@ func GetPostByID(postId int64) (data *models.Post, err error) {
     from post
     where post_id = ?`
 	err = db.Get(data, sqlStr, postId)
-	if err == sql.ErrNoRows {
+	if errors.Is(err, sql.ErrNoRows) {
 		err = ErrorInvalidID
 		return
 	}

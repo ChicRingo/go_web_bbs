@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"errors"
 	"fmt"
+	"go_web_bbs/dao/mysql"
 	"go_web_bbs/logic"
 	"strconv"
 
@@ -57,7 +59,12 @@ func CommunityDetailHandler(c *gin.Context) {
 	//2. 根据id获取社区详情
 	communityDetail, err := logic.GetCommunityDetail(id)
 	if err != nil {
-		zap.L().Error("mysql.GetCommunityDetail() failed", zap.Error(err))
+		if errors.Is(err, mysql.ErrorInvalidID) {
+			zap.L().Error("mysql.GetCommunityDetailById() failed", zap.Error(err))
+			ResponseErrorWithMsg(c, CodeServerBusy, err.Error())
+			return
+		}
+		zap.L().Error("mysql.GetCommunityDetailById() failed", zap.Error(err))
 		ResponseError(c, CodeServerBusy) //不轻易把服务器错误暴露给外界
 		return
 	}

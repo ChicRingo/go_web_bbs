@@ -4,12 +4,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/spf13/viper"
-
 	"github.com/dgrijalva/jwt-go"
-)
 
-const TokenExpireDuration = time.Hour * 24 * 365
+	"github.com/spf13/viper"
+)
 
 var mySecret = []byte("你好骚啊")
 
@@ -27,8 +25,8 @@ type MyClaims struct {
 func GenToken(userID int64, username string) (string, error) {
 	// 创建一个我们自己的声明数据
 	c := MyClaims{
-		userID,     // 自定义字段
-		"username", // 自定义字段
+		userID,   // 自定义字段
+		username, // 自定义字段
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(viper.GetDuration("auth.jwt_expire") * time.Hour).Unix(), // 过期时间
 			Issuer:    "go_web_bbs",                                                            // 签发人

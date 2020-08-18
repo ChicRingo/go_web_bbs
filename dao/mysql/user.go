@@ -6,6 +6,8 @@ import (
 	"encoding/hex"
 	"errors"
 	"go_web_bbs/models"
+
+	"go.uber.org/zap"
 )
 
 // 把每一步数据库操作封装成函数
@@ -83,12 +85,14 @@ func GetUserByID(uid int64) (user *models.User, err error) {
 	from user
 	where username = ?`
 	err = db.Get(user, sqlStr, uid)
-	//if err == sql.ErrNoRows {
-	//	return ErrorUserNotExist
-	//}
-	//if err != nil {
-	//	// 查询数据库失败
-	//	return err
-	//}
+	if errors.Is(err, sql.ErrNoRows) {
+		err = ErrorUserNotExist
+		return
+	}
+	if err != nil {
+		zap.L().Error("query user failed", zap.String("sql", sqlStr), zap.Error(err))
+		err = ErrorQueryFailed
+		return
+	}
 	return
 }

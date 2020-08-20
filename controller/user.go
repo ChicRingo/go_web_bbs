@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"go_web_bbs/dao/mysql"
 	"go_web_bbs/logic"
 	"go_web_bbs/models"
@@ -84,7 +85,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	// 2.业务处理
-	token, err := logic.Login(p)
+	user, err := logic.Login(p)
 	if err != nil {
 		zap.L().Error("logic.Login failed", zap.String("username", p.Username), zap.Error(err))
 		if errors.Is(err, mysql.ErrorUserNotExist) {
@@ -96,5 +97,9 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	// 3.返回响应
-	ResponseSuccess(c, token)
+	ResponseSuccess(c, gin.H{
+		"user_id":   fmt.Sprintf("%d", user.UserID), // js最大1<<53-1，int64最大是1<<63-1,需要转成字符串防止失真
+		"user_name": user.Username,
+		"token":     user.Token,
+	})
 }

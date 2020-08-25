@@ -47,6 +47,13 @@ func SetupRouter(mode string) *gin.Engine {
 			post.GET("/", controller.GetPostListHandler)
 		}
 
+		vote := v1.Group("/vote")
+		{
+			vote.POST("/", controller.PostVoteHandler)
+			//vote.GET("/:id", controller.GetPostDetailHandler)
+			//vote.GET("/", controller.GetPostListHandler)
+		}
+
 	}
 
 	r.NoRoute(func(c *gin.Context) {

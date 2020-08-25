@@ -44,11 +44,12 @@ type MySQLConfig struct {
 
 //redis配置信息
 type RedisConfig struct {
-	Host     string `mapstructure:"host"`
-	Password string `mapstructure:"password"`
-	DB       int    `mapstructure:"db"`
-	Port     int    `mapstructure:"port"`
-	PoolSize int    `mapstructure:"pool_size"`
+	Host         string `mapstructure:"host"`
+	Password     string `mapstructure:"password"`
+	DB           int    `mapstructure:"db"`
+	Port         int    `mapstructure:"port"`
+	PoolSize     int    `mapstructure:"pool_size"`
+	MinIdleConns int    `mapstructure:"min_idle_conns"`
 }
 
 func Init() (err error) {

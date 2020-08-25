@@ -96,3 +96,9 @@ func GetUserByID(uid int64) (user *models.User, err error) {
 	}
 	return
 }
+
+//
+func VoteForPost(user *models.ParamVoteData) (err error) {
+
+	return
+}

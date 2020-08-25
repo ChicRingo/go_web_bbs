@@ -3,6 +3,7 @@ package logic
 import (
 	"fmt"
 	"go_web_bbs/dao/mysql"
+	"go_web_bbs/dao/redis"
 	"go_web_bbs/models"
 	"go_web_bbs/pkg/snowflake"
 
@@ -17,6 +18,7 @@ func CreatePost(post *models.Post) (err error) {
 		zap.L().Error("mysql.CreatePost(post) failed", zap.Error(err))
 		return err
 	}
+	err = redis.CreatePost(post.PostID)
 	return
 }
 

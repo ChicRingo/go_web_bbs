@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go_web_bbs/controller"
 	"go_web_bbs/dao/mysql"
+	"go_web_bbs/dao/redis"
 	"go_web_bbs/logger"
 	"go_web_bbs/pkg/snowflake"
 	"go_web_bbs/router"
@@ -59,11 +60,11 @@ func main() {
 	defer mysql.Close()
 
 	// 4.初始化Redis连接
-	//if err := redis.Init(settings.Conf.RedisConfig); err != nil {
-	//	fmt.Printf("init redis failed, err:%v\n", err)
-	//	return
-	//}
-	//defer redis.Close()
+	if err := redis.Init(settings.Conf.RedisConfig); err != nil {
+		fmt.Printf("init redis failed, err:%v\n", err)
+		return
+	}
+	defer redis.Close()
 
 	//初始化雪花算法
 	if err := snowflake.Init(settings.Conf.StartTime, settings.Conf.MachineID); err != nil {

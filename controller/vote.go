@@ -1,6 +1,9 @@
 package controller
 
 import (
+	"errors"
+	"fmt"
+	"go_web_bbs/dao/redis"
 	"go_web_bbs/logic"
 	"go_web_bbs/models"
 
@@ -33,12 +36,17 @@ func PostVoteHandler(c *gin.Context) {
 	}
 	// 获取当前请求的用户的id
 	userID, err := getCurrentUserID(c)
+	fmt.Println(userID)
 	if err != nil {
 		ResponseError(c, CodeNeedLogin)
 		return
 	}
 	// 具体投票的业务逻辑
 	if err := logic.VoteForPost(userID, p); err != nil {
+		if errors.Is(err, redis.ErrVoteRepeated) {
+			ResponseSuccess(c, err.Error())
+			return
+		}
 		zap.L().Error("logic.VoteForPost() failed", zap.Error(err))
 		ResponseError(c, CodeServerBusy)
 		return

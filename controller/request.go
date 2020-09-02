@@ -11,7 +11,7 @@ const CtxUserIDKey = "userID" // 避免魔法值
 
 var ErrorUserNotLogin = errors.New("用户未登录")
 
-// getCurrentUser 获取当前登录的用户ID
+// 获取当前登录的用户ID
 func getCurrentUserID(c *gin.Context) (userID int64, err error) {
 	uid, ok := c.Get(CtxUserIDKey)
 	if !ok {

@@ -10,6 +10,7 @@ import (
 	"go.uber.org/zap"
 )
 
+// 创建帖子
 func CreatePost(post *models.Post) (err error) {
 	// 生成帖子ID
 	post.PostID = snowflake.GenID()
@@ -22,7 +23,7 @@ func CreatePost(post *models.Post) (err error) {
 	return
 }
 
-// GetPostById 根据帖子id获取帖子详情数据
+// 根据帖子id获取帖子详情数据
 func GetPostById(postID int64) (data *models.ApiPostDetail, err error) {
 	// 查询接口想用的数据
 	post, err := mysql.GetPostByID(postID)
@@ -66,7 +67,7 @@ func GetPostById(postID int64) (data *models.ApiPostDetail, err error) {
 	return
 }
 
-// GetPostList 根据页码和每页个数获取帖子分页列表
+// 根据页码和每页个数获取帖子分页列表
 func GetPostList(page, size int64) (data []*models.ApiPostDetail, err error) {
 	postList, err := mysql.GetPostList(page, size)
 	if err != nil {
@@ -101,6 +102,75 @@ func GetPostList(page, size int64) (data []*models.ApiPostDetail, err error) {
 		// 组合数据
 		postDetail := &models.ApiPostDetail{
 			AuthorName:      user.Username,
+			Post:            post,
+			CommunityDetail: community,
+		}
+		data = append(data, postDetail)
+	}
+
+	// 返回数据
+	return
+}
+
+// 根据页码和每页个数获取帖子分页列表
+func GetPostListByOrder(p *models.ParamPostList) (data []*models.ApiPostDetail, err error) {
+
+	// 从redis中查询id列表
+	ids, err := redis.GetPostIDsInOrder(p)
+	if err != nil {
+		return
+	}
+
+	if len(ids) == 0 {
+		zap.L().Warn("redis.GetPostIDsInOrder(p) return 0 data")
+		return
+	}
+
+	zap.L().Debug("redis.GetPostIDsInOrder(p) ids:", zap.Any("ids", ids))
+
+	// 3.根据从redis中获取的ids去mysql中查询帖子详情
+	// 返回的数据还要按照我给定的id的顺序返回
+	postList, err := mysql.GetPostListByIDs(ids)
+	if err != nil {
+		return
+	}
+	zap.L().Debug("mysql.GetPostListByIDs(ids) postList:", zap.Any("postList", postList))
+	// 提前查询好每篇帖子的投票数
+	data = make([]*models.ApiPostDetail, 0, len(postList))
+
+	votedata, err := redis.GetPostVoteData(ids)
+	if err != nil {
+		return
+	}
+
+	// 遍历postList数据，将帖子的作者和分区信息查询出来填充到帖子中
+	for idx, post := range postList {
+		// 根据作者id查询作者信息
+		user, err := mysql.GetUserByID(post.AuthorID)
+		if err != nil {
+			zap.L().Error(
+				"mysql.GetUserByID() failed",
+				zap.Int64("author_id", post.AuthorID),
+				zap.Error(err),
+			)
+			continue
+		}
+
+		// 根据社区id查询社区详细信息
+		community, err := mysql.GetCommunityDetailById(post.CommunityID)
+		if err != nil {
+			zap.L().Error(
+				"mysql.GetCommunityByID() failed",
+				zap.Int64("community_id", post.CommunityID),
+				zap.Error(err),
+			)
+			continue
+		}
+
+		// 组合数据
+		postDetail := &models.ApiPostDetail{
+			AuthorName:      user.Username,
+			VoteNum:         votedata[idx],
 			Post:            post,
 			CommunityDetail: community,
 		}

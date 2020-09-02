@@ -2,6 +2,7 @@ package redis
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -36,6 +37,7 @@ const (
 
 var (
 	ErrVoteTimeExpire = errors.New("投票时间已过")
+	ErrVoteRepeated   = errors.New("不可重复投票")
 )
 
 func CreatePost(postID int64) error {
@@ -69,7 +71,13 @@ func VoteForPost(userID, postID string, value float64) error {
 	// 先查当前用户给当前帖子的投票记录
 	ov := client.ZScore(getRedisKey(KeyPostVotedZSetPF+postID), userID).Val()
 
+	// 如果本次投票和上次投票情况一致，就不允许投票，减少RTT
+	if value == ov {
+		return ErrVoteRepeated
+	}
+
 	diff := ov - value // 计算两次投票的差值
+	fmt.Println(userID, diff, ov, value)
 
 	// 开启事务
 	pipeline := client.TxPipeline()
@@ -77,7 +85,7 @@ func VoteForPost(userID, postID string, value float64) error {
 
 	// 3. 记录用户为该贴子投票的数据
 	if value == 0 {
-		pipeline.ZRem(getRedisKey(KeyPostVotedZSetPF+postID), postID)
+		pipeline.ZRem(getRedisKey(KeyPostVotedZSetPF+postID), userID)
 	} else {
 		pipeline.ZAdd(getRedisKey(KeyPostVotedZSetPF+postID), redis.Z{
 			Score:  value, // 赞成票还是反对票

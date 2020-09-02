@@ -58,7 +58,21 @@ func InitTrans(locale string) (err error) {
 		default:
 			err = enTranslations.RegisterDefaultTranslations(v, trans)
 		}
-		return
+		if err != nil {
+			return err
+		}
+
+		// 注册自定义方法的翻译
+		// 注意！因为这里会使用到trans实例，所以这一步注册要放到trans初始化的后面
+		//if err := v.RegisterTranslation(
+		//	"checkDate",
+		//	trans,
+		//	registerTranslator("checkDate", "{0}必须要晚于当前日期"),
+		//	translate,
+		//); err != nil {
+		//	return err
+		//}
+		//return
 	}
 	return
 }

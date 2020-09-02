@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"go_web_bbs/models"
 
 	"go.uber.org/zap"
@@ -61,7 +62,7 @@ func CheckUserPassword(user *models.ParamLogin) error {
 // Login 用户登录检查用户是否存在和密码是否正确
 func Login(user *models.User) (err error) {
 	oPassword := user.Password // 用户登录的密码
-	sqlStr := `select username, password from user where username = ?`
+	sqlStr := `select user_id, username, password from user where username = ?`
 	err = db.Get(user, sqlStr, user.Username)
 	if errors.Is(err, sql.ErrNoRows) {
 		return ErrorUserNotExist
@@ -70,6 +71,7 @@ func Login(user *models.User) (err error) {
 		// 查询数据库失败
 		return err
 	}
+	fmt.Println(user)
 	// 判断密码是否正确
 	password := encryptPassword(oPassword)
 	if password != user.Password {

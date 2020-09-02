@@ -99,12 +99,52 @@ func GetPostDetailHandler(c *gin.Context) {
 // @Param size query int true "每页数量"
 // @Success 1000 {object} controller.ResponseData
 // @Failure 1005 {object} controller.ResponseData
-// @Router /post [get]
+// @Router /posts1 [get]
 func GetPostListHandler(c *gin.Context) {
 	// 1.获取参数及参数校验
 	page, size := getPageInfo(c)
 	// 2.根据页码和个数获取分页数据
 	data, err := logic.GetPostList(page, size)
+	if err != nil {
+		zap.L().Error("logic.GetPostList() failed", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+	// 3.返回响应
+	ResponseSuccess(c, data)
+}
+
+// GetPostListHandler2 godoc
+// @Summary 帖子列表
+// @Description 根据前端参数动态获取全部帖子列表，按 时间 或 分数 排序
+// @Tags post
+// @version 1.0
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param page query int true "分页页码"
+// @Param size query int true "每页数量"
+// @Param order query string true "排序规则"
+// @Success 1000 {object} controller.ResponseData
+// @Failure 1005 {object} controller.ResponseData
+// @Router /posts2 [get]
+func GetPostListHandler2(c *gin.Context) {
+	// 1.获取参数及参数校验
+
+	// 初始化结构体时指定初始参数
+	p := &models.ParamPostList{
+		Page:  1,
+		Size:  10,
+		Order: models.OrderTime,
+	}
+	if err := c.ShouldBindQuery(p); err != nil {
+		zap.L().Error("GetPostListHandler2 with invalid params", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	// 3.根据id、页码和个数获取分页数据
+	data, err := logic.GetPostListByOrder(p)
 	if err != nil {
 		zap.L().Error("logic.GetPostList() failed", zap.Error(err))
 		ResponseError(c, CodeServerBusy)

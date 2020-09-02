@@ -44,8 +44,10 @@ func SetupRouter(mode string) *gin.Engine {
 		{
 			post.POST("/", controller.CreatePostHandler)
 			post.GET("/:id", controller.GetPostDetailHandler)
-			post.GET("/", controller.GetPostListHandler)
 		}
+		v1.GET("/posts", controller.GetPostListHandler)
+		// 根据时间或者分数获取帖子列表
+		v1.GET("/posts2", controller.GetPostListHandler2)
 
 		vote := v1.Group("/vote")
 		{

@@ -31,7 +31,7 @@ direction = -1时，有两种情况
 	2.到期之后删除那个 KeyPostVotedZSetPF
 */
 
-// VoteForPost 为帖子投票的函数
+// 为帖子投票的函数
 func VoteForPost(userID int64, p *models.ParamVoteData) error {
 	zap.L().Debug("VoteForPost",
 		zap.Int64("userID", userID),

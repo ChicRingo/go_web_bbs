@@ -3,6 +3,8 @@ package redis
 import (
 	"errors"
 	"fmt"
+	"go_web_bbs/models"
+	"strconv"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -40,20 +42,25 @@ var (
 	ErrVoteRepeated   = errors.New("不可重复投票")
 )
 
-func CreatePost(postID int64) error {
+func CreatePost(p *models.Post) error {
 	// 开启事务
 	pipeline := client.TxPipeline()
+
 	// 帖子时间
 	pipeline.ZAdd(getRedisKey(KeyPostTimeZSet), redis.Z{
 		Score:  float64(time.Now().Unix()),
-		Member: postID,
+		Member: p.PostID,
 	})
 
 	// 帖子分数
 	pipeline.ZAdd(getRedisKey(KeyPostScoreZSet), redis.Z{
 		Score:  float64(time.Now().Unix()),
-		Member: postID,
+		Member: p.PostID,
 	})
+
+	// 把帖子id加到社区的set
+	cKey := getRedisKey(KeyCommunitySetPF + strconv.Itoa(int(p.CommunityID)))
+	pipeline.SAdd(cKey, p.PostID)
 	_, err := pipeline.Exec()
 	return err
 }
@@ -72,15 +79,16 @@ func VoteForPost(userID, postID string, value float64) error {
 	ov := client.ZScore(getRedisKey(KeyPostVotedZSetPF+postID), userID).Val()
 
 	// 如果本次投票和上次投票情况一致，就不允许投票，减少RTT
-	if value == ov {
-		return ErrVoteRepeated
-	}
+	//if value == ov {
+	//	return ErrVoteRepeated
+	//}
 
-	diff := ov - value // 计算两次投票的差值
+	diff := value - ov // 计算两次投票的差值
 	fmt.Println(userID, diff, ov, value)
 
 	// 开启事务
 	pipeline := client.TxPipeline()
+	//当 key 不存在，或 member 不是 key 的成员时， ZIncrBy key increment member 等同于 ZAdd key increment member 。
 	pipeline.ZIncrBy(getRedisKey(KeyPostScoreZSet), diff*scorePerVote, postID)
 
 	// 3. 记录用户为该贴子投票的数据

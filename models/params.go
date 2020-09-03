@@ -27,9 +27,15 @@ const (
 	OrderScore = "score"
 )
 
-// 获取帖子列表参数
+// 获取帖子列表query string参数
 type ParamPostList struct {
 	Page  int64  `form:"page"`
 	Size  int64  `form:"size"`
 	Order string `form:"order"`
+}
+
+// 获取帖子列表参数
+type ParamCommunityList struct {
+	ParamPostList
+	CommunityID int64 `json:"community_id" form:"community_id"`
 }

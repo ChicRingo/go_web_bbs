@@ -153,3 +153,47 @@ func GetPostListHandler2(c *gin.Context) {
 	// 3.返回响应
 	ResponseSuccess(c, data)
 }
+
+// GetCommunityListHandler godoc
+// @Summary 帖子列表
+// @Description 根据社区获取帖子列表
+// @Tags post
+// @version 1.0
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param page query int true "分页页码"
+// @Param size query int true "每页数量"
+// @Param order query string true "排序规则"
+// @Param community_id query string true "社区id"
+// @Success 1000 {object} controller.ResponseData
+// @Failure 1005 {object} controller.ResponseData
+// @Router /posts2 [get]
+func GetCommunityPostListHandler(c *gin.Context) {
+	// 初始化结构体时指定初始参数
+	p := &models.ParamCommunityList{
+		ParamPostList: models.ParamPostList{
+			Page:  1,
+			Size:  10,
+			Order: models.OrderTime,
+		},
+	}
+
+	// 绑定 query 参数
+	if err := c.ShouldBindQuery(p); err != nil {
+		zap.L().Error("GetCommunityPostListHandler with invalid params", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	// 根据id、页码和个数获取分页数据
+	data, err := logic.GetCommunityPostList(p)
+	if err != nil {
+		zap.L().Error("logic.GetCommunityPostList() failed", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 返回响应
+	ResponseSuccess(c, data)
+}

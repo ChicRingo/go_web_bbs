@@ -11,20 +11,22 @@ import (
 
 var mySecret = []byte("你好骚啊")
 
-// MyClaims 自定义声明结构体并内嵌jwt.StandardClaims
-// jwt包自带的jwt.StandardClaims只包含了官方字段
-// 我们这里需要额外记录一个username字段，所以要自定义结构体
-// 如果想要保存更多信息，都可以添加到这个结构体中
-type MyClaims struct {
+/*
+自定义声明结构体并内嵌jwt.StandardClaims
+jwt包自带的jwt.StandardClaims只包含了官方字段
+我们这里需要额外记录user_id,username字段，所以要自定义结构体
+如果想要保存更多信息，都可以添加到这个结构体中
+*/
+type Claims struct {
 	UserId   int64  `json:"user_id"`
 	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
-// GenToken 生成JWT
+// 生成token
 func GenToken(userID int64, username string) (string, error) {
 	// 创建一个我们自己的声明数据
-	claims := MyClaims{
+	claims := Claims{
 		userID,   // 自定义字段
 		username, // 自定义字段
 		jwt.StandardClaims{
@@ -38,18 +40,17 @@ func GenToken(userID int64, username string) (string, error) {
 	return token.SignedString(mySecret)
 }
 
-// ParseToken 解析JWT
-func ParseToken(tokenString string) (*MyClaims, error) {
-	// 解析token
-	var mc = new(MyClaims)
-	token, err := jwt.ParseWithClaims(tokenString, mc, func(token *jwt.Token) (i interface{}, err error) {
+// 解析token
+func ParseToken(tokenString string) (*Claims, error) {
+	var claims = new(Claims)
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		return mySecret, nil
 	})
 	if err != nil {
 		return nil, err
 	}
 	if token.Valid { // 校验token
-		return mc, nil
+		return claims, nil
 	}
 	return nil, errors.New("invalid token")
 }

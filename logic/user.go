@@ -9,26 +9,26 @@ import (
 
 // 存放业务逻辑的代码
 
+// 注册用户
 func SingUp(p *models.ParamSingUp) (err error) {
-
 	// 1.判断用户是否存在
 	if err := mysql.CheckUserExist(p.Username); err != nil {
 		return err
 	}
-	// 2.生成UID
+
+	// 2.构造user实例
 	userID := snowflake.GenID()
-	// 构造user实例
 	user := models.User{
 		UserID:   userID,
 		Username: p.Username,
 		Password: p.Password,
 	}
+
 	// 3.保存进数据库
 	return mysql.InsertUser(&user)
-	// redis.xxx
 }
 
-// Login 判断用户密码是否正确
+// 判断用户密码是否正确
 func Login(p *models.ParamLogin) (user *models.User, err error) {
 	user = &models.User{
 		Username: p.Username,

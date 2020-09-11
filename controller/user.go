@@ -74,8 +74,9 @@ func LoginHandler(c *gin.Context) {
 	p := new(models.ParamLogin)
 	if err := c.ShouldBindJSON(p); err != nil {
 		// 请求参数有误，直接返回响应
-		zap.L().Error("SignUp with invalid param", zap.Error(err))
-		// 判断err是不是validator。ValidationErrors类型
+		zap.L().Warn("SignUp with invalid param", zap.Error(err))
+
+		// 判断err是不是validator.ValidationErrors类型
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
 			ResponseError(c, CodeInvalidParam)
@@ -84,10 +85,13 @@ func LoginHandler(c *gin.Context) {
 		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
+
 	// 2.业务处理
 	user, err := logic.Login(p)
 	if err != nil {
-		zap.L().Error("logic.Login failed", zap.String("username", p.Username), zap.Error(err))
+		zap.L().Error("logic.Login(p) failed", zap.String("username", p.Username), zap.Error(err))
+
+		// 查无此人
 		if errors.Is(err, mysql.ErrorUserNotExist) {
 			ResponseError(c, CodeUserNotExist)
 			return

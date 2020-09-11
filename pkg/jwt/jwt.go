@@ -9,12 +9,13 @@ import (
 	"github.com/spf13/viper"
 )
 
-var mySecret = []byte("你好骚啊")
+// secret签名
+var jwtSecretKey = []byte("你好骚啊")
 
 /*
-自定义声明结构体并内嵌jwt.StandardClaims
-jwt包自带的jwt.StandardClaims只包含了官方字段
-我们这里需要额外记录user_id,username字段，所以要自定义结构体
+自定义声明结构体并内嵌 jwt.StandardClaims
+jwt包自带的 jwt.StandardClaims 只包含了官方字段
+我们这里需要额外记录 user_id, username 字段，所以要自定义结构体
 如果想要保存更多信息，都可以添加到这个结构体中
 */
 type Claims struct {
@@ -25,7 +26,7 @@ type Claims struct {
 }
 
 // 生成token
-func ReleaseToken(userID int64, username string) (string, error) {
+func ReleaseToken(userID int64, username string) (tokenStr string, err error) {
 	// 创建一个自定义的声明
 	claims := Claims{
 		userID,
@@ -42,20 +43,22 @@ func ReleaseToken(userID int64, username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// 使用指定的secret签名并获得完整的编码后的字符串token
-	return token.SignedString(mySecret)
+	tokenStr, err = token.SignedString(jwtSecretKey)
+	return
 }
 
 // 解析token
-func ParseToken(tokenString string) (*Claims, error) {
-	var claims = new(Claims)
+func ParseToken(tokenString string) (claims *Claims, err error) {
+	claims = new(Claims)
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-		return mySecret, nil
+		return jwtSecretKey, nil
 	})
-	if err != nil {
+
+	// 校验token
+	if err != nil || !token.Valid {
+		err = errors.New("invalid token")
 		return nil, err
 	}
-	if token.Valid { // 校验token
-		return claims, nil
-	}
-	return nil, errors.New("invalid token")
+
+	return claims, nil
 }

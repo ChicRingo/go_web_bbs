@@ -24,7 +24,7 @@ type MyClaims struct {
 // GenToken 生成JWT
 func GenToken(userID int64, username string) (string, error) {
 	// 创建一个我们自己的声明数据
-	c := MyClaims{
+	claims := MyClaims{
 		userID,   // 自定义字段
 		username, // 自定义字段
 		jwt.StandardClaims{
@@ -33,7 +33,7 @@ func GenToken(userID int64, username string) (string, error) {
 		},
 	}
 	// 使用指定的签名方法创建签名对象
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// 使用指定的secret签名并获得完整的编码后的字符串token
 	return token.SignedString(mySecret)
 }

@@ -19,14 +19,14 @@ jwt包自带的jwt.StandardClaims只包含了官方字段
 */
 type Claims struct {
 	// 自定义字段
-	UserId   int64  `json:"user_id"`
+	UserID   int64  `json:"user_id"`
 	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
 // 生成token
 func ReleaseToken(userID int64, username string) (string, error) {
-	// 创建一个我们自己的声明数据
+	// 创建一个自定义的声明
 	claims := Claims{
 		userID,
 		username,

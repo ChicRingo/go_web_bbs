@@ -19,9 +19,9 @@ var doc = `{
         "description": "{{.Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "百度不会吗？嗯？看什么看？",
-            "url": "http://www.baidu.com",
-            "email": "test@qq.com"
+            "name": "这是一个不存在的官网和邮箱",
+            "url": "http://www.bing.com",
+            "email": "test@outlook.com"
         },
         "license": {
             "name": "Apache 2.0",
@@ -46,16 +46,19 @@ var doc = `{
                 "summary": "社区列表",
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1006": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
@@ -92,21 +95,25 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1001": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1006": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
@@ -140,21 +147,25 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1001": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1003": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
@@ -193,21 +204,25 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1001": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1006": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
@@ -244,21 +259,25 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1001": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1006": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
@@ -302,11 +321,13 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
@@ -321,7 +342,7 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "根据前端参数动态获取全部帖子列表，按 时间 或 分数 排序",
+                "description": "根据社区获取帖子列表",
                 "consumes": [
                     "application/json"
                 ],
@@ -346,15 +367,31 @@ var doc = `{
                         "name": "size",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序规则",
+                        "name": "order",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "社区id",
+                        "name": "community_id",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
@@ -388,21 +425,25 @@ var doc = `{
                 ],
                 "responses": {
                     "1000": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1001": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1002": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
                     },
                     "1005": {
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }

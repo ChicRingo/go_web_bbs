@@ -7,11 +7,9 @@ import (
 	"go_web_bbs/logic"
 	"go_web_bbs/models"
 
-	"go.uber.org/zap"
-
-	"github.com/go-playground/validator/v10"
-
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"go.uber.org/zap"
 )
 
 // 投票

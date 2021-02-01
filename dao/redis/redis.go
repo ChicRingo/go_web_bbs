@@ -7,11 +7,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-// 声明一个全局的rdb变量
-var (
-	client *redis.Client
-	Nil    = redis.Nil
-)
+var client *redis.Client
 
 // 初始化连接
 func Init(cfg *settings.RedisConfig) (err error) {

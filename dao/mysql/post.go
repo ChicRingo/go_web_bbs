@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/jmoiron/sqlx"
-
 	"go.uber.org/zap"
 )
 

@@ -2,10 +2,9 @@ package mysql
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"go_web_bbs/models"
-
-	"errors"
 
 	"go.uber.org/zap"
 )

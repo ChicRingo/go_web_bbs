@@ -24,9 +24,9 @@ import (
 // @version 0.0.1
 // @description 这是一个gin+sqlx+viper+swag的bbs demo
 
-// @contact.name 百度不会吗？嗯？看什么看？
-// @contact.url http://www.baidu.com
-// @contact.email test@qq.com
+// @contact.name 这是一个不存在的官网和邮箱
+// @contact.url http://www.bing.com
+// @contact.email test@outlook.com
 
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html

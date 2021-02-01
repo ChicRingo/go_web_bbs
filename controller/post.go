@@ -120,8 +120,8 @@ func GetPostListHandler(c *gin.Context) {
 // @Tags post
 // @version 1.0
 // @Security ApiKeyAuth
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param page query int true "分页页码"
 // @Param size query int true "每页数量"
 // @Param order query string true "排序规则"

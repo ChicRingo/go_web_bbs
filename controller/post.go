@@ -13,10 +13,9 @@ import (
 // @Summary 创建帖子
 // @Description 根据get请求参数创建帖子
 // @Tags post
-// @version 1.0
 // @Security ApiKeyAuth
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param post body models.Post true "提交文章对象"
 // @Success 1000 {object} controller.ResponseData
 // @Failure 1001 {object} controller.ResponseData
@@ -55,10 +54,9 @@ func CreatePostHandler(c *gin.Context) {
 // @Summary 帖子详情
 // @Description 根据id获取帖子详情
 // @Tags post
-// @version 1.0
 // @Security ApiKeyAuth
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param id path int true "post_id"
 // @Success 1000 {object} controller.ResponseData
 // @Failure 1001 {object} controller.ResponseData
@@ -91,10 +89,9 @@ func GetPostDetailHandler(c *gin.Context) {
 // @Summary 帖子列表
 // @Description 获取全部帖子列表
 // @Tags post
-// @version 1.0
 // @Security ApiKeyAuth
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param page query int true "分页页码"
 // @Param size query int true "每页数量"
 // @Success 1000 {object} controller.ResponseData
@@ -118,14 +115,14 @@ func GetPostListHandler(c *gin.Context) {
 // @Summary 帖子列表
 // @Description 根据前端参数动态获取全部帖子列表，按 时间 或 分数 排序
 // @Tags post
-// @version 1.0
-// @Security ApiKeyAuth
 // @Accept application/json
 // @Produce application/json
+// @Security ApiKeyAuth
+// @Param Authorization header string false "Bearer 用户令牌"
 // @Param page query int true "分页页码"
 // @Param size query int true "每页数量"
 // @Param order query string true "排序规则"
-// @Success 1000 {object} controller.ResponseData
+// @Success 200 {object} _ResponsePostList
 // @Failure 1005 {object} controller.ResponseData
 // @Router /posts2 [get]
 func GetPostListHandler2(c *gin.Context) {
@@ -158,10 +155,9 @@ func GetPostListHandler2(c *gin.Context) {
 // @Summary 帖子列表
 // @Description 根据社区获取帖子列表
 // @Tags post
-// @version 1.0
 // @Security ApiKeyAuth
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param page query int true "分页页码"
 // @Param size query int true "每页数量"
 // @Param order query string true "排序规则"

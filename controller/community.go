@@ -17,7 +17,6 @@ import (
 // @Summary 社区列表
 // @Description 查询到所有的社区（community_id, community_name）以列表形式返回
 // @Tags community
-// @version 1.0
 // @Security ApiKeyAuth
 // @Success 1000 {object} controller.ResponseData
 // @Failure 1005 {object} controller.ResponseData
@@ -37,10 +36,9 @@ func CommunityHandler(c *gin.Context) {
 // @Summary 社区分类详情
 // @Description 根据id获取社区详情
 // @Tags community
-// @version 1.0
 // @Security ApiKeyAuth
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param id path int true "社区ID"
 // @Success 1000 {object} controller.ResponseData
 // @Failure 1001 {object} controller.ResponseData

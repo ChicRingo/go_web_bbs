@@ -16,9 +16,8 @@ import (
 // @Summary 新建用户
 // @Description 根据传递进来的用户名和密码进行校验，通过后创建新用户
 // @Tags user
-// @version 1.0
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param paramSingUp body models.ParamSingUp true "用户注册请求"
 // @Success 1000 {object} controller.ResponseData
 // @Failure 1001 {object} controller.ResponseData
@@ -60,9 +59,8 @@ func SignUpHandler(c *gin.Context) {
 // @Summary 用户登录
 // @Description 根据传递进来的用户名和密码进行校验，通过后创建新用户
 // @Tags user
-// @version 1.0
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param paramLogin body models.ParamLogin true "用户登陆请求"
 // @Success 1000 {object} controller.ResponseData
 // @Failure 1001 {object} controller.ResponseData

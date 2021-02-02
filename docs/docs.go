@@ -208,24 +208,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/controller.ResponseData"
                         }
-                    },
-                    "1001": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1006": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
                     }
                 }
             }

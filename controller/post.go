@@ -18,9 +18,6 @@ import (
 // @Produce application/json
 // @Param post body models.Post true "提交文章对象"
 // @Success 1000 {object} controller.ResponseData
-// @Failure 1001 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
-// @Failure 1006 {object} controller.ResponseData
 // @Router /post [post]
 func CreatePostHandler(c *gin.Context) {
 	// 1.获取参数及参数校验
@@ -122,7 +119,7 @@ func GetPostListHandler(c *gin.Context) {
 // @Param page query int true "分页页码"
 // @Param size query int true "每页数量"
 // @Param order query string true "排序规则"
-// @Success 200 {object} _ResponsePostList
+// @Success 1000 {object} controller.ResponseData
 // @Failure 1005 {object} controller.ResponseData
 // @Router /posts2 [get]
 func GetPostListHandler2(c *gin.Context) {
@@ -151,7 +148,7 @@ func GetPostListHandler2(c *gin.Context) {
 	ResponseSuccess(c, data)
 }
 
-// GetCommunityListHandler godoc
+// GetCommunityPostListHandler godoc
 // @Summary 帖子列表
 // @Description 根据社区获取帖子列表
 // @Tags post

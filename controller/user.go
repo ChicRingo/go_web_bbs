@@ -30,13 +30,14 @@ func SignUpHandler(c *gin.Context) {
 	if err := c.ShouldBindJSON(p); err != nil {
 		// 请求参数有误，直接返回响应
 		zap.L().Error("SignUp with invalid param", zap.Error(err))
-		// 判断err是不是validator。ValidationErrors类型
-		errs, ok := err.(validator.ValidationErrors)
+
+		// 判断 err 是不是 validator.ValidationErrors 类型
+		valErr, ok := err.(validator.ValidationErrors)
 		if !ok {
 			ResponseError(c, CodeInvalidParam)
 			return
 		}
-		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(valErr.Translate(trans)))
 		return
 	}
 

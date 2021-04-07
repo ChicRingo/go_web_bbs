@@ -45,22 +45,10 @@ var doc = `{
                 ],
                 "summary": "社区列表",
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1006": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     }
                 }
@@ -94,28 +82,10 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1001": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1006": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     }
                 }
@@ -123,7 +93,7 @@ var doc = `{
         },
         "/login": {
             "post": {
-                "description": "根据传递进来的用户名和密码进行校验，通过后创建新用户",
+                "description": "根据传递进来的用户名和密码进行校验，通过后用户登陆并返回Token",
                 "consumes": [
                     "application/json"
                 ],
@@ -131,7 +101,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "users"
                 ],
                 "summary": "用户登录",
                 "parameters": [
@@ -146,28 +116,22 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     },
-                    "1001": {
-                        "description": "",
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     },
-                    "1003": {
-                        "description": "",
+                    "404": {
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     }
                 }
@@ -203,10 +167,10 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponsePostList"
                         }
                     }
                 }
@@ -240,28 +204,10 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1001": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1006": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     }
                 }
@@ -302,16 +248,10 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     }
                 }
@@ -366,16 +306,10 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     }
                 }
@@ -406,28 +340,10 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "1000": {
-                        "description": "",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1001": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1002": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
-                        }
-                    },
-                    "1005": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controller.ResponseData"
+                            "$ref": "#/definitions/controller._ResponseData"
                         }
                     }
                 }
@@ -435,18 +351,88 @@ var doc = `{
         }
     },
     "definitions": {
-        "controller.ResponseData": {
+        "controller._ResponseData": {
             "type": "object",
             "properties": {
                 "code": {
                     "type": "integer",
-                    "example": 1000
+                    "example": 400
                 },
                 "data": {
-                    "type": "object"
+                    "type": "string"
                 },
-                "msg": {
-                    "type": "object"
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        },
+        "controller._ResponsePostList": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ApiPostDetail"
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        },
+        "models.ApiPostDetail": {
+            "type": "object",
+            "required": [
+                "community_id",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "author_id": {
+                    "type": "integer"
+                },
+                "author_name": {
+                    "type": "string"
+                },
+                "community_id": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "introduction": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "vote_num": {
+                    "type": "integer"
                 }
             }
         },

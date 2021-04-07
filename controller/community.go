@@ -2,7 +2,6 @@ package controller
 
 import (
 	"errors"
-	"fmt"
 	"go_web_bbs/dao/mysql"
 	"go_web_bbs/logic"
 	"strconv"
@@ -18,17 +17,20 @@ import (
 // @Description 查询到所有的社区（community_id, community_name）以列表形式返回
 // @Tags community
 // @Security ApiKeyAuth
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
-// @Failure 1006 {object} controller.ResponseData
+// @Success 200 {object} _responseCommunityList
 // @Router /community [get]
 func CommunityHandler(c *gin.Context) {
+	// 1.获取全部社区列表
 	communityList, err := logic.GetCommunityList()
 	if err != nil {
 		zap.L().Error("mysql.GetCommunityList() failed", zap.Error(err))
-		ResponseError(c, CodeServerBusy) //不轻易把服务器错误暴露给外界
+
+		//不轻易把服务器错误暴露给外界
+		ResponseError(c, CodeServerBusy)
 		return
 	}
+
+	// 2.返回社区列表
 	ResponseSuccess(c, communityList)
 }
 
@@ -40,32 +42,31 @@ func CommunityHandler(c *gin.Context) {
 // @Accept application/json
 // @Produce application/json
 // @Param id path int true "社区ID"
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1001 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
-// @Failure 1006 {object} controller.ResponseData
+// @Success 200 {object} _responseCommunityDetail
 // @Router /community/{id} [get]
 func CommunityDetailHandler(c *gin.Context) {
-	// 1.获取社区id
-	idStr := c.Param("id") // 获取URL路径参数
-	fmt.Println(idStr)
+	// 1.URL路径参数获取社区id
+	idStr := c.Param("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
-		ResponseError(c, CodeInvalidParam) // 参数错误
+		// 参数错误
+		ResponseError(c, CodeInvalidParam)
 		return
 	}
-	//2. 根据id获取社区详情
+
+	// 2.根据id获取社区详情
 	communityDetail, err := logic.GetCommunityDetail(id)
 	if err != nil {
+		zap.L().Error("mysql.GetCommunityDetailByID() failed", zap.Error(err))
 		if errors.Is(err, mysql.ErrorInvalidID) {
-			zap.L().Error("mysql.GetCommunityDetailById() failed", zap.Error(err))
 			ResponseErrorWithMsg(c, CodeServerBusy, err.Error())
 			return
 		}
-		zap.L().Error("mysql.GetCommunityDetailById() failed", zap.Error(err))
+
 		ResponseError(c, CodeServerBusy) //不轻易把服务器错误暴露给外界
 		return
 	}
-	fmt.Println(communityDetail)
+
+	// 3.返回社区详情
 	ResponseSuccess(c, communityDetail)
 }

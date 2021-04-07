@@ -48,7 +48,7 @@ func GetPostById(postID int64) (data *models.ApiPostDetail, err error) {
 	}
 
 	// 根据社区id查询社区详细信息
-	community, err := mysql.GetCommunityDetailById(post.CommunityID)
+	community, err := mysql.GetCommunityDetailByID(post.CommunityID)
 	if err != nil {
 		zap.L().Error(
 			"mysql.GetCommunityByID() failed",
@@ -89,7 +89,7 @@ func GetPostList(page, size int64) (data []*models.ApiPostDetail, err error) {
 		}
 
 		// 根据社区id查询社区详细信息
-		community, err := mysql.GetCommunityDetailById(post.CommunityID)
+		community, err := mysql.GetCommunityDetailByID(post.CommunityID)
 		if err != nil {
 			zap.L().Error(
 				"mysql.GetCommunityByID() failed",
@@ -158,7 +158,7 @@ func GetPostListByOrder(p *models.ParamPostList) (data []*models.ApiPostDetail, 
 		}
 
 		// 根据社区id查询社区详细信息
-		community, err := mysql.GetCommunityDetailById(post.CommunityID)
+		community, err := mysql.GetCommunityDetailByID(post.CommunityID)
 		if err != nil {
 			zap.L().Error(
 				"mysql.GetCommunityByID() failed",
@@ -226,7 +226,7 @@ func GetCommunityPostList(p *models.ParamCommunityList) (data []*models.ApiPostD
 		}
 
 		// 根据社区id查询社区详细信息
-		community, err := mysql.GetCommunityDetailById(post.CommunityID)
+		community, err := mysql.GetCommunityDetailByID(post.CommunityID)
 		if err != nil {
 			zap.L().Error(
 				"mysql.GetCommunityByID() failed",

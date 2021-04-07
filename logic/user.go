@@ -2,6 +2,7 @@ package logic
 
 import (
 	"go_web_bbs/dao/mysql"
+	"go_web_bbs/dao/orm"
 	"go_web_bbs/models"
 	"go_web_bbs/pkg/jwt"
 	"go_web_bbs/pkg/snowflake"
@@ -12,7 +13,7 @@ import (
 // 注册用户
 func SingUp(p *models.ParamSingUp) (err error) {
 	// 1.判断用户是否存在
-	if err := mysql.CheckUserExist(p.Username); err != nil {
+	if err = orm.CheckUserExist(p.Username); err != nil {
 		return err
 	}
 
@@ -35,7 +36,7 @@ func Login(p *models.ParamLogin) (user *models.User, err error) {
 		Password: p.Password,
 	}
 	// 传递的是指针，就能拿到p.UserID
-	if err := mysql.Login(user); err != nil {
+	if err = mysql.Login(user); err != nil {
 		return nil, err
 	}
 	//生成JWT

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go_web_bbs/controller"
 	"go_web_bbs/dao/mysql"
+	"go_web_bbs/dao/orm"
 	"go_web_bbs/dao/redis"
 	"go_web_bbs/logger"
 	"go_web_bbs/pkg/snowflake"
@@ -58,6 +59,13 @@ func main() {
 		return
 	}
 	defer mysql.Close()
+
+	// 3.初始化GORM
+	if err := orm.Init(settings.Conf.MySQLConfig); err != nil {
+		fmt.Printf("init mysql failed, err:%v\n", err)
+		return
+	}
+	defer orm.Close()
 
 	// 4.初始化Redis连接
 	if err := redis.Init(settings.Conf.RedisConfig); err != nil {

@@ -19,10 +19,7 @@ import (
 // @Accept application/json
 // @Produce application/json
 // @Param paramSingUp body models.ParamSingUp true "用户注册请求"
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1001 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
-// @Failure 1002 {object} controller.ResponseData
+// @Success 200 {object} _response
 // @Router /signup [post]
 func SignUpHandler(c *gin.Context) {
 	// 1.获取参数和参数校验
@@ -58,15 +55,13 @@ func SignUpHandler(c *gin.Context) {
 
 // LoginHandler godoc
 // @Summary 用户登录
-// @Description 根据传递进来的用户名和密码进行校验，通过后创建新用户
+// @Description 根据传递进来的用户名和密码进行校验，通过后用户登陆并返回Token
 // @Tags user
 // @Accept application/json
 // @Produce application/json
 // @Param paramLogin body models.ParamLogin true "用户登陆请求"
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1001 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
-// @Failure 1003 {object} controller.ResponseData
+// @Success 200 {object} _response
+// @Failure 400,404 {object} _response
 // @Router /login [post]
 func LoginHandler(c *gin.Context) {
 	// 1.获取参数和参数校验

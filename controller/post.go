@@ -17,7 +17,7 @@ import (
 // @Accept application/json
 // @Produce application/json
 // @Param post body models.Post true "提交文章对象"
-// @Success 1000 {object} controller.ResponseData
+// @Success 200 {object} _response
 // @Router /post [post]
 func CreatePostHandler(c *gin.Context) {
 	// 1.获取参数及参数校验
@@ -55,10 +55,7 @@ func CreatePostHandler(c *gin.Context) {
 // @Accept application/json
 // @Produce application/json
 // @Param id path int true "post_id"
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1001 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
-// @Failure 1006 {object} controller.ResponseData
+// @Success 200 {object} _responsePostDetail
 // @Router /post/{id} [get]
 func GetPostDetailHandler(c *gin.Context) {
 	// 1.获取参数及参数校验
@@ -91,8 +88,7 @@ func GetPostDetailHandler(c *gin.Context) {
 // @Produce application/json
 // @Param page query int true "分页页码"
 // @Param size query int true "每页数量"
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
+// @Success 200 {object} _responsePostList
 // @Router /posts1 [get]
 func GetPostListHandler(c *gin.Context) {
 	// 1.获取参数及参数校验
@@ -119,8 +115,7 @@ func GetPostListHandler(c *gin.Context) {
 // @Param page query int true "分页页码"
 // @Param size query int true "每页数量"
 // @Param order query string true "排序规则"
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
+// @Success 200 {object} _responsePostList
 // @Router /posts2 [get]
 func GetPostListHandler2(c *gin.Context) {
 	// 1.获取参数及参数校验
@@ -159,8 +154,7 @@ func GetPostListHandler2(c *gin.Context) {
 // @Param size query int true "每页数量"
 // @Param order query string true "排序规则"
 // @Param community_id query string true "社区id"
-// @Success 1000 {object} controller.ResponseData
-// @Failure 1005 {object} controller.ResponseData
+// @Success 200 {object} _responsePostList
 // @Router /posts2 [get]
 func GetCommunityPostListHandler(c *gin.Context) {
 	// 初始化结构体时指定初始参数

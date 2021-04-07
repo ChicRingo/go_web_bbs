@@ -1,14 +1,62 @@
 basePath: /api/v1
 definitions:
-  controller.ResponseData:
+  controller._ResponseData:
     properties:
       code:
-        example: 1000
+        example: 400
         type: integer
       data:
-        type: object
-      msg:
-        type: object
+        type: string
+      message:
+        example: status bad request
+        type: string
+    type: object
+  controller._ResponsePostList:
+    properties:
+      code:
+        example: 400
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/models.ApiPostDetail'
+        type: array
+      message:
+        example: status bad request
+        type: string
+    type: object
+  models.ApiPostDetail:
+    properties:
+      author_id:
+        type: integer
+      author_name:
+        type: string
+      community_id:
+        type: integer
+      content:
+        type: string
+      create_time:
+        type: string
+      id:
+        type: integer
+      introduction:
+        type: string
+      name:
+        type: string
+      post_id:
+        example: "0"
+        type: string
+      status:
+        type: integer
+      title:
+        type: string
+      update_time:
+        type: string
+      vote_num:
+        type: integer
+    required:
+    - community_id
+    - content
+    - title
     type: object
   models.ParamLogin:
     properties:
@@ -72,18 +120,10 @@ paths:
     get:
       description: 查询到所有的社区（community_id, community_name）以列表形式返回
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1005":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1006":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 社区列表
@@ -103,22 +143,10 @@ paths:
       produces:
       - application/json
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1001":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1005":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1006":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 社区分类详情
@@ -128,7 +156,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: 根据传递进来的用户名和密码进行校验，通过后创建新用户
+      description: 根据传递进来的用户名和密码进行校验，通过后用户登陆并返回Token
       parameters:
       - description: 用户登陆请求
         in: body
@@ -139,25 +167,21 @@ paths:
       produces:
       - application/json
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1001":
-          description: ""
+            $ref: '#/definitions/controller._ResponseData'
+        "400":
+          description: Bad Request
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1003":
-          description: ""
+            $ref: '#/definitions/controller._ResponseData'
+        "404":
+          description: Bad Request
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1005":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponseData'
       summary: 用户登录
       tags:
-      - user
+      - users
   /post:
     post:
       consumes:
@@ -173,10 +197,10 @@ paths:
       produces:
       - application/json
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponsePostList'
       security:
       - ApiKeyAuth: []
       summary: 创建帖子
@@ -196,22 +220,10 @@ paths:
       produces:
       - application/json
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1001":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1005":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1006":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 帖子详情
@@ -236,14 +248,10 @@ paths:
       produces:
       - application/json
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1005":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 帖子列表
@@ -278,14 +286,10 @@ paths:
       produces:
       - application/json
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1005":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponseData'
       security:
       - ApiKeyAuth: []
       summary: 帖子列表
@@ -306,22 +310,10 @@ paths:
       produces:
       - application/json
       responses:
-        "1000":
-          description: ""
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1001":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1002":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
-        "1005":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller.ResponseData'
+            $ref: '#/definitions/controller._ResponseData'
       summary: 新建用户
       tags:
       - user
